@@ -1,4 +1,4 @@
-name: Deploy MAIN WSL
+name: Deploy to Nginx Server
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Desplegar en producción (main)
+    name: Deploy to Nginx Server
     runs-on: [self-hosted, linux, x64, wsl]
 
     steps:
@@ -15,13 +15,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Mostrar mensaje
-        run: echo "Desplegando rama MAIN..."
+        run: echo "Desplegando rama main en WSL..."
 
-      - name: Crear carpeta destino
-        run: mkdir -p /var/www/html/laboratorio-wsl
+      - name: Ir a carpeta destino
+        run: mkdir -p /var/www/Plataforma_web_AR_3D
 
-      - name: Copiar archivos (sin borrar existentes)
-        run: rsync -av index.html css .github /var/www/html/laboratorio-wsl/
+      - name: Copiar archivos
+        run: rsync -av --exclude='.git' --exclude='.github' ./ /var/www/Plataforma_web_AR_3D/
+
+      - name: Recargar Nginx
+        run: sudo systemctl reload nginx
 
       - name: Verificar despliegue
-        run: ls -la /var/www/html/laboratorio-wsl/
+        run: ls -la /var/www/Plataforma_web_AR_3D
