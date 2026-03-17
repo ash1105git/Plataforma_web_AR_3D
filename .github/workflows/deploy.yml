@@ -18,7 +18,7 @@ jobs:
         run: echo "Desplegando rama main en WSL..."
 
       - name: Ir a carpeta destino
-        run: mkdir -p /var/www/html/Plataforma_web_AR_3D
+        run: mkdir -p /var/www/html/Plataforma_web_AR_3D/
 
       - name: Copiar archivos
         run: rsync -av --exclude='.git' --exclude='.github' ./ /var/www/html/Plataforma_web_AR_3D/
@@ -27,4 +27,4 @@ jobs:
         run: sudo systemctl reload nginx
 
       - name: Verificar despliegue
-        run: ls -la /var/www/html/Plataforma_web_AR_3D
+        run: ls -la /var/www/html/Plataforma_web_AR_3D/
