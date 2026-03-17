@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy to Nginx Server
-    runs-on: [self-hosted, linux, x64, wsl]
+    runs-on: self-hosted
 
     steps:
       - name: Clonar repositorio
