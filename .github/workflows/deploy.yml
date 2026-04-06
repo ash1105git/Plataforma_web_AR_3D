@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy to Nginx Server
-    runs-on: [self-hosted, linux, x64, wsl]
+    runs-on: self-hosted
 
     steps:
       - name: Clonar repositorio
@@ -18,13 +18,13 @@ jobs:
         run: echo "Desplegando rama main en WSL..."
 
       - name: Ir a carpeta destino
-        run: mkdir -p /var/www/Plataforma_web_AR_3D
+        run: mkdir -p /var/www/html/Plataforma_web_AR_3D/
 
       - name: Copiar archivos
-        run: rsync -av --exclude='.git' --exclude='.github' ./ /var/www/Plataforma_web_AR_3D/
+        run: rsync -av --exclude='.git' --exclude='.github' ./ /var/www/html/Plataforma_web_AR_3D/
 
       - name: Recargar Nginx
         run: sudo systemctl reload nginx
 
       - name: Verificar despliegue
-        run: ls -la /var/www/Plataforma_web_AR_3D
+        run: ls -la /var/www/html/Plataforma_web_AR_3D/
