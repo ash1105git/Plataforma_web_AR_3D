@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+
+# runner (MUY IMPORTANTE)
+actions-runner/
+frontend/actions-runner/
