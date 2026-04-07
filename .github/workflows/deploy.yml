@@ -27,6 +27,12 @@ jobs:
           --exclude='.github' \
           ./ /var/www/html/Plataforma_web_AR_3D/
 
+      # 🔥 NUEVO PASO
+      - name: Instalar dependencias en frontend
+        run: |
+          cd /var/www/html/Plataforma_web_AR_3D/frontend
+          sudo npm install
+
       - name: Recargar Nginx
         run: sudo systemctl reload nginx
 
