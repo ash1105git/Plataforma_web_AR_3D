@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ver en AR · Strawberry Yarn</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
+  </script>
+
+  <link rel="stylesheet" href="css/variables.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--rosa-bg);
+      color: var(--oscuro);
+      min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .topbar {
+      width: 100%; display: flex; align-items: center;
+      justify-content: space-between; padding: 14px 20px;
+      background: rgba(253,240,243,.92); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(232,53,74,.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .back-link {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--gris-texto); text-decoration: none;
+      font-size: .84rem; font-weight: 500; transition: color .2s;
+    }
+    .back-link:hover { color: var(--rojo); }
+    .topbar-brand { font-size: .78rem; color: var(--gris-texto); display: flex; align-items: center; gap: 6px; }
+    .logo-top { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+
+    .page {
+      width: 100%; max-width: 520px;
+      padding: 18px 16px 48px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+
+    /* ── Selector ── */
+    .selector-card {
+      background: var(--blanco); border-radius: var(--radio);
+      padding: 18px; box-shadow: var(--sombra-card);
+    }
+    .selector-title {
+      font-size: .82rem; font-weight: 600; color: var(--gris-texto);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px;
+    }
+    .personajes-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    }
+    .personaje-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      background: var(--rosa-bg); border: 2px solid transparent;
+      border-radius: 12px; padding: 10px 6px;
+      cursor: pointer; transition: all .22s; position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .personaje-btn:hover { border-color: var(--rojo); background: #fff0f2; }
+    .personaje-btn.activo {
+      border-color: var(--rojo); background: #fff0f2;
+      box-shadow: 0 4px 14px rgba(232,53,74,.22);
+    }
+    .personaje-btn .emoji { font-size: 1.8rem; }
+    .personaje-btn .pnombre { font-size: .72rem; font-weight: 600; color: var(--oscuro); text-align: center; }
+    .personaje-btn .pprecio { font-size: .68rem; color: var(--rojo); font-weight: 600; }
+    .dot-activo {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--rojo); display: none;
+    }
+    .personaje-btn.activo .dot-activo { display: block; }
+
+    /* ── Visor ── */
+    .visor-wrap {
+      position: relative; border-radius: var(--radio);
+      overflow: hidden;
+      background: linear-gradient(145deg, #fde8ec, #f8d0d8);
+      box-shadow: 0 12px 40px rgba(232,53,74,.18);
+      min-height: 360px;
+    }
+
+    model-viewer {
+      width: 100%; height: 420px; border-radius: var(--radio);
+      --poster-color: transparent;
+    }
+
+    .ar-btn-custom {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--rojo); color: #fff;
+      border: none; border-radius: 50px;
+      padding: 14px 28px;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(232,53,74,.40);
+      transition: transform .15s;
+      position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+      white-space: nowrap; z-index: 5;
+    }
+    .ar-btn-custom:active { transform: translateX(-50%) scale(.96); }
+
+    .loader {
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg, #fde8ec, #f8d0d8);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      border-radius: var(--radio); transition: opacity .5s; pointer-events: none; z-index: 2;
+    }
+    .loader.oculto { opacity: 0; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid rgba(232,53,74,.2);
+      border-top-color: var(--rojo);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-txt { font-size: .82rem; color: var(--gris-texto); }
+
+    .badge-ar-visor {
+      position: absolute; top: 14px; left: 14px; z-index: 4;
+      background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(232,53,74,.18); border-radius: 50px;
+      padding: 5px 12px; font-size: .72rem; font-weight: 600; color: var(--rojo);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .badge-ar-visor::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--rojo); animation: pdot 1.4s infinite;
+    }
+    @keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    /* ── Info card ── */
+    .info-card {
+      background: var(--blanco); border-radius: var(--radio);
+      padding: 22px; box-shadow: var(--sombra-card);
+    }
+    .badge-hecho {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(232,53,74,.08); color: var(--rojo);
+      border: 1px solid rgba(232,53,74,.2);
+      padding: 4px 12px; border-radius: 50px;
+      font-size: .72rem; font-weight: 500; margin-bottom: 10px;
+    }
+    .info-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700; margin-bottom: 7px; letter-spacing: -.02em;
+    }
+    .info-card .desc { font-size: .85rem; color: var(--gris-texto); line-height: 1.7; margin-bottom: 18px; }
+    .precio-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .precio { font-size: 1.75rem; font-weight: 700; color: var(--rojo); }
+    .stars { color: #f4a261; font-size: .9rem; letter-spacing: 2px; }
+    .comprar-btn {
+      width: 100%; padding: 14px;
+      background: var(--rojo); color: #fff;
+      border: none; border-radius: 50px;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(232,53,74,.3);
+      transition: transform .15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .comprar-btn:active { transform: scale(.97); }
+
+    /* ── Pasos ── */
+    .pasos-card {
+      background: var(--blanco); border-radius: var(--radio);
+      padding: 22px; box-shadow: var(--sombra-card);
+    }
+    .pasos-card h2 { font-size: .95rem; font-weight: 600; margin-bottom: 15px; }
+    .paso { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 13px; }
+    .paso:last-child { margin-bottom: 0; }
+    .paso-num {
+      width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%;
+      background: rgba(232,53,74,.1); color: var(--rojo);
+      font-weight: 700; font-size: .82rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .paso-txt { font-size: .84rem; color: var(--gris-texto); line-height: 1.65; }
+    .paso-txt strong { color: var(--oscuro); }
+    .compat-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .compat-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: #f0faf0; border: 1px solid #c8e6c9;
+      border-radius: 50px; padding: 5px 12px;
+      font-size: .75rem; font-weight: 500; color: #2e7d32;
+    }
+
+    /* ── Desktop aviso ── */
+    .desktop-aviso {
+      background: var(--blanco); border-radius: var(--radio); padding: 28px 22px;
+      text-align: center; box-shadow: var(--sombra-card); display: none;
+    }
+    .desktop-aviso .icono { font-size: 2.8rem; margin-bottom: 14px; }
+    .desktop-aviso h2 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .desktop-aviso p { font-size: .84rem; color: var(--gris-texto); line-height: 1.65; }
+    .qr-hint {
+      margin-top: 16px; padding: 12px 16px;
+      background: rgba(232,53,74,.06); border-radius: 10px;
+      font-size: .8rem; color: var(--gris-texto);
+    }
+
+    .compat-nota {
+      background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px;
+      padding: 13px 17px; font-size: .8rem; color: #5d4037; display: none;
+    }
+    .compat-nota.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="back-link">← Volver</a>
+  <span class="topbar-brand">
+    <img src="assets/logo.jpeg" alt="Strawberry Yarn" class="logo-top" />
+    Strawberry Yarn
+  </span>
+</div>
+
+<div class="page">
+
+  <div class="compat-nota" id="compat-nota">
+    ⚠️ Tu navegador no soporta AR nativamente.
+    Para la mejor experiencia usa <strong>Chrome en Android</strong>
+    o <strong>Safari en iPhone/iPad</strong>.
+  </div>
+
+  <!-- ── Selector de personajes ── -->
+  <div class="selector-card">
+    <div class="selector-title">🧶 Elige tu personaje</div>
+    <div class="personajes-grid">
+
+      <button class="personaje-btn activo" onclick="cambiarModelo(this)"
+        data-modelo="jake"
+        data-nombre="Jake"
+        data-desc="Amigurumi Jake tejido a crochet con hilos premium. Ojos de seguridad y relleno hipoalergénico. Aprox. 12 cm."
+        data-precio="$38.000">
+        <span class="dot-activo"></span>
+        <span class="emoji">🐶</span>
+        <span class="pnombre">Jake</span>
+        <span class="pprecio">$38.000</span>
+      </button>
+
+      <button class="personaje-btn" onclick="cambiarModelo(this)"
+        data-modelo="merlina"
+        data-nombre="Merlina"
+        data-desc="Merlina amigurumi de crochet, oscura y adorable. Hilos seleccionados, detalles únicos bordados. Aprox. 14 cm."
+        data-precio="$42.000">
+        <span class="dot-activo"></span>
+        <span class="emoji">🖤</span>
+        <span class="pnombre">Merlina</span>
+        <span class="pprecio">$42.000</span>
+      </button>
+
+      <button class="personaje-btn" onclick="cambiarModelo(this)"
+        data-modelo="patricio"
+        data-nombre="Patricio"
+        data-desc="Patricio estrella de mar tejida en hilo rosa suave. Ojos expresivos y textura delicada. Aprox. 13 cm."
+        data-precio="$35.000">
+        <span class="dot-activo"></span>
+        <span class="emoji">⭐</span>
+        <span class="pnombre">Patricio</span>
+        <span class="pprecio">$35.000</span>
+      </button>
+
+      <button class="personaje-btn" onclick="cambiarModelo(this)"
+        data-modelo="raton"
+        data-nombre="Ratón"
+        data-desc="Ratoncito amigurumi con orejitas redondeadas y nariz bordada. Hilo suave anti-alérgico. Aprox. 11 cm."
+        data-precio="$32.000">
+        <span class="dot-activo"></span>
+        <span class="emoji">🐭</span>
+        <span class="pnombre">Ratón</span>
+        <span class="pprecio">$32.000</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ── Visor AR ── -->
+  <div class="visor-wrap" id="visor-wrap">
+    <div class="badge-ar-visor">AR Listo</div>
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      <span class="loader-txt">Cargando modelo 3D…</span>
+    </div>
+
+    <model-viewer
+      id="mv"
+      src="assets/modelos/jake.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      ar-scale="fixed"
+      ar-placement="floor"
+      camera-controls
+      auto-rotate
+      auto-rotate-delay="800"
+      rotation-per-second="18deg"
+      shadow-intensity="1.2"
+      shadow-softness="0.7"
+      exposure="0.9"
+      environment-image="neutral"
+      loading="eager"
+      reveal="auto"
+      camera-orbit="0deg 75deg 2.5m"
+      touch-action="pan-y"
+    >
+      <button slot="ar-button" class="ar-btn-custom">
+        📱 Ver en tu espacio
+      </button>
+    </model-viewer>
+  </div>
+
+  <!-- ── Info del producto ── -->
+  <div class="info-card">
+    <div class="badge-hecho">🧶 Hecho a mano</div>
+    <h1 id="info-nombre">Jake</h1>
+    <p class="desc" id="info-desc">
+      Amigurumi Jake tejido a crochet con hilos premium. Ojos de seguridad y relleno hipoalergénico. Aprox. 12 cm.
+    </p>
+    <div class="precio-row">
+      <span class="precio" id="info-precio">$38.000</span>
+      <span class="stars">★★★★★</span>
+    </div>
+    <button class="comprar-btn" onclick="pedirWA()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir por WhatsApp
+    </button>
+  </div>
+
+  <!-- ── Cómo usar la AR ── -->
+  <div class="pasos-card">
+    <h2>📱 Cómo usar la Realidad Aumentada</h2>
+    <div class="paso">
+      <div class="paso-num">1</div>
+      <div class="paso-txt">
+        <strong>Elige un personaje</strong> de la galería y toca
+        <em>"Ver en tu espacio"</em> en el visor 3D.
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">2</div>
+      <div class="paso-txt">
+        <strong>Mueve lentamente tu celular</strong> para detectar una
+        superficie plana (mesa o suelo). Verás un marcador cuando esté listo.
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">3</div>
+      <div class="paso-txt">
+        <strong>Toca para colocar</strong> el amigurumi en tu espacio real.
+        Usa dos dedos para rotar y cambiar el tamaño.
+      </div>
+    </div>
+    <div class="paso">
+      <div class="paso-num">4</div>
+      <div class="paso-txt">
+        <strong>¡Toma una foto!</strong> Usa el botón de captura para
+        guardar el amigurumi en tu espacio favorito.
+      </div>
+    </div>
+    <div class="compat-chips">
+      <span class="compat-chip">🤖 Android + Chrome</span>
+      <span class="compat-chip">🍎 iPhone/iPad + Safari</span>
+      <span class="compat-chip">📡 ARCore / ARKit</span>
+    </div>
+  </div>
+
+  <!-- Aviso desktop -->
+  <div class="desktop-aviso" id="desktop-aviso">
+    <div class="icono">📱</div>
+    <h2>La AR funciona en tu celular</h2>
+    <p>
+      Desde el escritorio puedes explorar los modelos 3D girando arriba.
+      Para colocar el amigurumi en tu espacio real, abre esta página en tu
+      smartphone con <strong>Chrome (Android)</strong> o <strong>Safari (iPhone/iPad)</strong>.
+    </p>
+    <div class="qr-hint">
+      💡 Comparte esta URL con tu celular para activar la AR.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const mv        = document.getElementById('mv');
+  const loader    = document.getElementById('loader');
+  const TELEFONO  = '573001234567';
+
+  let nombreActual = 'Jake';
+  let precioActual = '$38.000';
+
+  mv.addEventListener('load', () => {
+    loader.classList.add('oculto');
+    setTimeout(() => { loader.style.display = 'none'; }, 520);
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const esMobil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (!esMobil) {
+      document.getElementById('desktop-aviso').style.display = 'block';
+    } else if (mv.canActivateAR) {
+      mv.canActivateAR.then(ok => {
+        if (!ok) document.getElementById('compat-nota').classList.add('visible');
+      }).catch(() => {
+        document.getElementById('compat-nota').classList.add('visible');
+      });
+    }
+
+    // Si llega con ?modelo=xxx en la URL, pre-seleccionarlo
+    const params = new URLSearchParams(window.location.search);
+    const modeloParam = params.get('modelo');
+    if (modeloParam) {
+      const btn = document.querySelector(`[data-modelo="${modeloParam}"]`);
+      if (btn) cambiarModelo(btn);
+    }
+  });
+
+  mv.addEventListener('ar-status', e => {
+    if (e.detail.status === 'failed') {
+      alert('No se pudo iniciar AR. Verifica que ARCore (Android) o ARKit (iPhone) estén disponibles y actualizados.');
+    }
+  });
+
+  function cambiarModelo(btn) {
+    document.querySelectorAll('.personaje-btn').forEach(b => b.classList.remove('activo'));
+    btn.classList.add('activo');
+
+    const modelo = btn.dataset.modelo;
+    nombreActual = btn.dataset.nombre;
+    precioActual = btn.dataset.precio;
+    const desc   = btn.dataset.desc;
+
+    // Mostrar loader
+    loader.style.display = 'flex';
+    loader.classList.remove('oculto');
+
+    // Cambiar modelo
+    mv.src = `assets/modelos/${modelo}.glb`;
+
+    // Actualizar info
+    document.getElementById('info-nombre').textContent = nombreActual;
+    document.getElementById('info-desc').textContent   = desc;
+    document.getElementById('info-precio').textContent = precioActual;
+  }
+
+  function pedirWA() {
+    const msg = encodeURIComponent(
+      `¡Hola Strawberry Yarn! 🍓\nQuiero pedir: *${nombreActual}* (${precioActual})\n¿Está disponible?`
+    );
+    window.open(`https://wa.me/${TELEFONO}?text=${msg}`, '_blank', 'noopener');
+  }
+</script>
+
+</body>
+</html>

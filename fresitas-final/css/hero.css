@@ -1,0 +1,89 @@
+/* ═══════════════════════════════
+   hero.css
+═══════════════════════════════ */
+
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 100px 48px 80px;
+  position: relative;
+  overflow: hidden;
+  background: var(--rosa-bg);
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 60% 55% at 68% 50%, rgba(232,53,74,.07) 0%, transparent 70%);
+}
+.hero-bg-dots {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: radial-gradient(circle, rgba(232,53,74,.11) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 55% 60% at 22% 50%, black 0%, transparent 80%);
+}
+
+.hero-texto { position: relative; z-index: 2; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(232,53,74,.09); border: 1px solid rgba(232,53,74,.18);
+  color: var(--rojo); padding: 6px 16px; border-radius: 50px;
+  font-size: .76rem; font-weight: 500; letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: 22px;
+  animation: fadeUp .8s ease both;
+}
+.hero-badge::before { content: '🍓'; font-size: 13px; }
+
+.hero-h1 {
+  font-family: var(--font-body);
+  font-size: clamp(2.4rem, 4.8vw, 4rem);
+  line-height: 1.1; letter-spacing: -.02em;
+  font-weight: 700; margin-bottom: 18px;
+  animation: fadeUp .8s .1s ease both;
+}
+.hero-h1 em { font-style: normal; color: var(--rojo); }
+
+.hero-p {
+  font-size: 1rem; line-height: 1.7; color: var(--gris-texto);
+  max-width: 420px; margin-bottom: 36px;
+  animation: fadeUp .8s .2s ease both;
+}
+
+.hero-btns {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: fadeUp .8s .3s ease both;
+}
+
+.hero-3d {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn 1.2s .4s ease both;
+}
+#hero-canvas {
+  width: 100%; max-width: 580px; height: 540px;
+  border-radius: var(--radio); cursor: grab;
+}
+#hero-canvas:active { cursor: grabbing; }
+
+.hero-hint {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--blanco); padding: 7px 14px; border-radius: 50px;
+  font-size: .74rem; color: var(--gris-texto);
+  box-shadow: var(--sombra-card);
+  animation: floatPulse 2.4s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes floatPulse {
+  0%,100% { opacity:.7; transform:translateX(-50%) translateY(0); }
+  50%      { opacity:1;  transform:translateX(-50%) translateY(-5px); }
+}
