@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strawberry Yarn — Fresitas de Lana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/catalogo.css" />
+  <link rel="stylesheet" href="css/buscador.css" />
+  <link rel="stylesheet" href="css/modal.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/whatsapp.css" />
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <a href="#" class="logo">
+    <img class="logo-img" src="assets/logo.jpeg" alt="Strawberry Yarn" />
+    <span class="logo-texto">Strawberry Yarn</span>
+  </a>
+  <nav id="main-nav">
+    <a href="#hero">Inicio</a>
+    <a href="#catalogo">Catálogo</a>
+    <a href="#ar-section">AR</a>
+    <a href="#" class="nav-carrito" aria-label="Carrito">🛒</a>
+    <a href="login.html">🔐</a>
+  </nav>
+  <div class="burger" id="burger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-dots"></div>
+  <div class="hero-texto">
+    <div class="hero-badge">Nueva Colección 2026</div>
+    <h1 class="hero-h1">Tejido a mano<br>con <em>mucho amor</em></h1>
+    <p class="hero-p">Amigurumis y fresitas tejidas a crochet. Cada pieza es única, hecha con los mejores hilos y colores que te robarán el corazón.</p>
+    <div class="hero-btns">
+      <a href="#catalogo" class="btn btn-primary">🧶 Ver catálogo</a>
+      <a href="#ar-section" class="btn btn-secondary">📱 Ver en AR</a>
+    </div>
+  </div>
+  <div class="hero-3d">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-hint">🖱️ Arrastra para rotar</div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section id="valores">
+  <div class="valores-grid">
+    <div class="valor-card reveal">
+      <div class="valor-icono">🧶</div>
+      <div class="valor-texto"><h3>Hecho a mano</h3><p>Cada pieza tejida con dedicación usando hilos premium.</p></div>
+    </div>
+    <div class="valor-card reveal" style="transition-delay:.1s">
+      <div class="valor-icono">🔮</div>
+      <div class="valor-texto"><h3>Visor 3D</h3><p>Explora productos en 360° con nuestro visor interactivo.</p></div>
+    </div>
+    <div class="valor-card reveal" style="transition-delay:.2s">
+      <div class="valor-icono">📱</div>
+      <div class="valor-texto"><h3>Realidad Aumentada</h3><p>Visualiza el producto en tu espacio antes de comprarlo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATÁLOGO -->
+<section id="catalogo">
+  <div class="section-header reveal">
+    <div class="section-tag">Colección artesanal</div>
+    <h2>Descubre nuestros productos</h2>
+    <p>Cada pieza tejida con amor y detalle único</p>
+  </div>
+
+  <!-- Buscador -->
+  <div class="search-wrap">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Buscar producto…" autocomplete="off" />
+      <button class="search-clear" id="search-clear">✕</button>
+    </div>
+    <div class="filter-chips" id="filter-chips">
+      <button class="chip active" data-filtro="all">Todos</button>
+      <button class="chip" data-filtro="animal">🐾 Animales</button>
+      <button class="chip" data-filtro="personaje">🌟 Personajes</button>
+      <button class="chip" data-filtro="llavero">🔑 Llaveros</button>
+      <button class="chip" data-filtro="original">✨ Originales</button>
+      <button class="chip" data-filtro="precio-asc">💰 Menor precio</button>
+      <button class="chip" data-filtro="precio-desc">💎 Mayor precio</button>
+    </div>
+    <div class="results-count" id="results-count"></div>
+  </div>
+
+  <div class="products-grid" id="products-grid" style="display:none"></div>
+
+  <div class="slider-wrapper">
+    <div class="slider-track" id="slider-track">
+
+      <!-- tarjeta 1 -->
+      <div class="product-card reveal"
+           data-nombre="fresita clásica"
+           data-precio="25000" data-categoria="original"
+           data-tags="fresita,fresa,roja,clásica,decorativa">
+        <div class="product-img">
+          <span class="badge badge-nuevo">Nuevo</span>
+          <img src="assets/productos/p1.jpeg" alt="Fresita Clásica" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Fresita Clásica</h3>
+          <p class="desc">Crochet rojo · detalle de hoja verde</p>
+          <div class="price-row"><span class="product-price">$25.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Fresita Clásica','$25.000','Fresita tejida en hilo rojo con hoja verde. Perfecta como decoración o regalo.','#e8354a','assets/productos/p1.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Fresita Clásica','$25.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 2 -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="llavero fresita"
+           data-precio="18000" data-categoria="llavero"
+           data-tags="llavero,fresita,mini,pequeño,regalo">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p2.jpeg" alt="Llavero Fresita" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Llavero Fresita</h3>
+          <p class="desc">Mini · argolla dorada</p>
+          <div class="price-row"><span class="product-price">$18.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Llavero Fresita','$18.000','Fresita mini con argolla dorada. Ideal para bolsos y mochilas.','#e8354a','assets/productos/p2.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Llavero Fresita','$18.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 3 -->
+      <div class="product-card reveal" style="transition-delay:0.12s"
+           data-nombre="fresita rosada"
+           data-precio="22000" data-categoria="original"
+           data-tags="rosa,rosada,corazón,amor,regalo,fresita">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p3.jpeg" alt="Fresita Rosada" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Fresita Rosada</h3>
+          <p class="desc">Rosa pastel · ideal para regalar</p>
+          <div class="price-row"><span class="product-price">$22.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Fresita Rosada','$22.000','Fresita en rosa pastel con detalles blancos. El regalo perfecto.','#f9a8c9','assets/productos/p3.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Fresita Rosada','$22.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 4 -->
+      <div class="product-card reveal" style="transition-delay:0.18s"
+           data-nombre="fresita morada"
+           data-precio="22000" data-categoria="original"
+           data-tags="morada,violeta,fresita,decorativa">
+        <div class="product-img">
+          <span class="badge badge-edicion">Edición esp.</span>
+          <img src="assets/productos/p4.jpeg" alt="Fresita Morada" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Fresita Morada</h3>
+          <p class="desc">Violeta brillante · edición especial</p>
+          <div class="price-row"><span class="product-price">$22.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Fresita Morada','$22.000','Fresita en hilo morado brillante. Edición especial de colección.','#9b59b6','assets/productos/p4.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Fresita Morada','$22.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 5 -->
+      <div class="product-card reveal" style="transition-delay:0.24s"
+           data-nombre="osito amigurumi"
+           data-precio="35000" data-categoria="animal"
+           data-tags="oso,osito,café,amigurumi,animal,peluche">
+        <div class="product-img">
+          <img src="assets/productos/p5.jpeg" alt="Osito Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Osito Amigurumi</h3>
+          <p class="desc">Hilo café · ojos de seguridad</p>
+          <div class="price-row"><span class="product-price">$35.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Osito Amigurumi','$35.000','Adorable osito en algodón café con ojos de seguridad y nariz bordada. 18 cm.','#a0522d','assets/productos/p5.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Osito Amigurumi','$35.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 6 -->
+      <div class="product-card reveal" style="transition-delay:0.3s"
+           data-nombre="gatito amigurumi"
+           data-precio="38000" data-categoria="animal"
+           data-tags="gato,gatito,blanco,negro,amigurumi">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p6.jpeg" alt="Gatito Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Gatito Amigurumi</h3>
+          <p class="desc">Blanco y negro · nariz rosada</p>
+          <div class="price-row"><span class="product-price">$38.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Gatito Amigurumi','$38.000','Tierno gatito bicolor. Ojos de seguridad y nariz bordada. Tamaño palma.','#f5f5f0','assets/productos/p6.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Gatito Amigurumi','$38.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 7 -->
+      <div class="product-card reveal" style="transition-delay:0.36s"
+           data-nombre="conejito pastel"
+           data-precio="32000" data-categoria="animal"
+           data-tags="conejo,conejito,pastel,amigurumi,animal">
+        <div class="product-img">
+          <img src="assets/productos/p7.jpeg" alt="Conejito Pastel" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Conejito Pastel</h3>
+          <p class="desc">Tono pastel · orejas largas</p>
+          <div class="price-row"><span class="product-price">$32.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Conejito Pastel','$32.000','Adorable conejito en hilo pastel con orejas largas. Relleno hipoalergénico.','#e8c4c4','assets/productos/p7.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Conejito Pastel','$32.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 8 -->
+      <div class="product-card reveal" style="transition-delay:0.42s"
+           data-nombre="dino verde"
+           data-precio="40000" data-categoria="animal"
+           data-tags="dinosaurio,dino,verde,amigurumi,animal">
+        <div class="product-img">
+          <span class="badge badge-edicion">Edición esp.</span>
+          <img src="assets/productos/p8.jpeg" alt="Dino Verde" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Dino Verde</h3>
+          <p class="desc">Dinosaurio tejido · súper detallado</p>
+          <div class="price-row"><span class="product-price">$40.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Dino Verde','$40.000','Dinosaurio amigurumi en hilo verde con escamas. Ojos expresivos. 20 cm.','#388e3c','assets/productos/p8.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Dino Verde','$40.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 9 -->
+      <div class="product-card reveal"
+           data-nombre="llavero estrella"
+           data-precio="15000" data-categoria="llavero"
+           data-tags="estrella,dorado,llavero,brillante">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p9.jpeg" alt="Llavero Estrella" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Llavero Estrella</h3>
+          <p class="desc">Hilo dorado · argolla plateada</p>
+          <div class="price-row"><span class="product-price">$15.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Llavero Estrella','$15.000','Estrella brillante en hilo dorado. El accesorio perfecto.','#f0c040','assets/productos/p9.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Llavero Estrella','$15.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 10 -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="perezoso amigurumi"
+           data-precio="42000" data-categoria="animal"
+           data-tags="perezoso,sloth,beige,amigurumi,animal">
+        <div class="product-img">
+          <img src="assets/productos/p10.jpeg" alt="Perezoso Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Perezoso Amigurumi</h3>
+          <p class="desc">Sloth colgante · hilo suave beige</p>
+          <div class="price-row"><span class="product-price">$42.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Perezoso Amigurumi','$42.000','Adorable perezoso tejido en hilo beige suave. Ideal para colgar.','#c8a96e','assets/productos/p10.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Perezoso Amigurumi','$42.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 11 -->
+      <div class="product-card reveal" style="transition-delay:0.12s"
+           data-nombre="pulpo amigurumi"
+           data-precio="38000" data-categoria="animal"
+           data-tags="pulpo,azul,amigurumi,animal,tentáculos">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p11.jpeg" alt="Pulpo Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Pulpo Amigurumi</h3>
+          <p class="desc">Azul océano · 8 tentáculos</p>
+          <div class="price-row"><span class="product-price">$38.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Pulpo Amigurumi','$38.000','Pulpo en hilo azul con 8 tentáculos. Ojos expresivos. Aprox. 15 cm.','#1565c0','assets/productos/p11.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Pulpo Amigurumi','$38.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 12 -->
+      <div class="product-card reveal" style="transition-delay:0.18s"
+           data-nombre="pingüino amigurumi"
+           data-precio="35000" data-categoria="animal"
+           data-tags="pingüino,blanco,negro,amigurumi,animal">
+        <div class="product-img">
+          <img src="assets/productos/p12.jpeg" alt="Pingüino Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Pingüino Amigurumi</h3>
+          <p class="desc">Blanco y negro · pico naranja</p>
+          <div class="price-row"><span class="product-price">$35.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Pingüino Amigurumi','$35.000','Pingüino adorable en algodón bicolor con pico naranja. 16 cm.','#2c3e50','assets/productos/p12.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Pingüino Amigurumi','$35.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 13 -->
+      <div class="product-card reveal" style="transition-delay:0.24s"
+           data-nombre="unicornio mágico"
+           data-precio="45000" data-categoria="personaje"
+           data-tags="unicornio,blanco,cuerno,arcoíris">
+        <div class="product-img">
+          <span class="badge badge-edicion">Edición esp.</span>
+          <img src="assets/productos/p13.jpeg" alt="Unicornio Mágico" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Unicornio Mágico</h3>
+          <p class="desc">Cuerno dorado · crin arcoíris</p>
+          <div class="price-row"><span class="product-price">$45.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Unicornio Mágico','$45.000','Unicornio en hilo blanco con cuerno dorado y crin multicolor. 20 cm.','#f8bbd9','assets/productos/p13.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Unicornio Mágico','$45.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 14 -->
+      <div class="product-card reveal" style="transition-delay:0.3s"
+           data-nombre="loro amigurumi"
+           data-precio="36000" data-categoria="animal"
+           data-tags="loro,verde,pájaro,amigurumi,animal">
+        <div class="product-img">
+          <img src="assets/productos/p14.jpeg" alt="Loro Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Loro Amigurumi</h3>
+          <p class="desc">Verde esmeralda · pico amarillo</p>
+          <div class="price-row"><span class="product-price">$36.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Loro Amigurumi','$36.000','Loro en hilo verde con pico amarillo y alas detalladas. 17 cm.','#2e7d32','assets/productos/p14.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Loro Amigurumi','$36.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 15 -->
+      <div class="product-card reveal" style="transition-delay:0.36s"
+           data-nombre="llavero corazón"
+           data-precio="14000" data-categoria="llavero"
+           data-tags="corazón,rojo,llavero,amor,mini,regalo">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p15.jpeg" alt="Llavero Corazón" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Llavero Corazón</h3>
+          <p class="desc">Rojo brillante · argolla dorada</p>
+          <div class="price-row"><span class="product-price">$14.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Llavero Corazón','$14.000','Corazón tejido en hilo rojo brillante con argolla dorada.','#c0392b','assets/productos/p15.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Llavero Corazón','$14.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 16 -->
+      <div class="product-card reveal" style="transition-delay:0.42s"
+           data-nombre="dragón amigurumi"
+           data-precio="50000" data-categoria="personaje"
+           data-tags="dragón,azul,amigurumi,personaje,alas">
+        <div class="product-img">
+          <span class="badge badge-raro">Raro</span>
+          <img src="assets/productos/p16.jpeg" alt="Dragón Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Dragón Amigurumi</h3>
+          <p class="desc">Azul fantasy · con alas tejidas</p>
+          <div class="price-row"><span class="product-price">$50.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Dragón Amigurumi','$50.000','Dragón en hilo azul con alas y cuernos tejidos. Pieza de colección. 22 cm.','#1565c0','assets/productos/p16.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Dragón Amigurumi','$50.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 17 -->
+      <div class="product-card reveal"
+           data-nombre="muñeca amigurumi"
+           data-precio="48000" data-categoria="personaje"
+           data-tags="muñeca,vestido,amigurumi,personaje,niña">
+        <div class="product-img">
+          <img src="assets/productos/p17.jpeg" alt="Muñeca Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Muñeca Amigurumi</h3>
+          <p class="desc">Vestido rosa · pelo largo tejido</p>
+          <div class="price-row"><span class="product-price">$48.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Muñeca Amigurumi','$48.000','Muñeca con vestido rosa y pelo tejido largo. El regalo soñado. 25 cm.','#e91e8c','assets/productos/p17.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Muñeca Amigurumi','$48.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 18 -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="tortuga amigurumi"
+           data-precio="33000" data-categoria="animal"
+           data-tags="tortuga,verde,amigurumi,animal,caparazón">
+        <div class="product-img">
+          <img src="assets/productos/p18.jpeg" alt="Tortuga Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Tortuga Amigurumi</h3>
+          <p class="desc">Verde esmeralda · caparazón texturizado</p>
+          <div class="price-row"><span class="product-price">$33.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Tortuga Amigurumi','$33.000','Tortuga en hilo verde con caparazón texturizado. 14 cm.','#388e3c','assets/productos/p18.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Tortuga Amigurumi','$33.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 19 -->
+      <div class="product-card reveal" style="transition-delay:0.12s"
+           data-nombre="llavero nube"
+           data-precio="16000" data-categoria="llavero"
+           data-tags="nube,blanca,llavero,suave,esponjosa">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p19.jpeg" alt="Llavero Nube" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Llavero Nube</h3>
+          <p class="desc">Blanco esponjoso · suave al tacto</p>
+          <div class="price-row"><span class="product-price">$16.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Llavero Nube','$16.000','Nube esponjosa tejida en hilo blanco suave. Argolla metálica.','#ecf0f1','assets/productos/p19.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Llavero Nube','$16.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 20 -->
+      <div class="product-card reveal" style="transition-delay:0.18s"
+           data-nombre="aguacate amigurumi"
+           data-precio="28000" data-categoria="original"
+           data-tags="aguacate,avocado,verde,amigurumi,fruta">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p20.jpeg" alt="Aguacate Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Aguacate Amigurumi</h3>
+          <p class="desc">Verde y crema · carita feliz</p>
+          <div class="price-row"><span class="product-price">$28.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Aguacate Amigurumi','$28.000','Aguacate tejido en hilo verde y crema con carita bordada. Diseño exclusivo.','#558b2f','assets/productos/p20.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Aguacate Amigurumi','$28.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 21 -->
+      <div class="product-card reveal" style="transition-delay:0.24s"
+           data-nombre="llavero cactus"
+           data-precio="16000" data-categoria="llavero"
+           data-tags="cactus,verde,llavero,planta,mini">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p21.jpeg" alt="Llavero Cactus" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Llavero Cactus</h3>
+          <p class="desc">Verde tejido · maceta marrón</p>
+          <div class="price-row"><span class="product-price">$16.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Llavero Cactus','$16.000','Cactus mini tejido en hilo verde con maceta marrón. Argolla dorada.','#388e3c','assets/productos/p21.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Llavero Cactus','$16.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 22 -->
+      <div class="product-card reveal" style="transition-delay:0.3s"
+           data-nombre="gato bruja"
+           data-precio="40000" data-categoria="personaje"
+           data-tags="gato,negro,bruja,personaje,colección">
+        <div class="product-img">
+          <span class="badge badge-raro">Raro</span>
+          <img src="assets/productos/p22.jpeg" alt="Gato Bruja" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Gato Bruja</h3>
+          <p class="desc">Negro con sombrero · edición especial</p>
+          <div class="price-row"><span class="product-price">$40.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Gato Bruja','$40.000','Gato negro con sombrero de bruja tejido. Pieza de colección exclusiva. 18 cm.','#1a1a2e','assets/productos/p22.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Gato Bruja','$40.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 23 -->
+      <div class="product-card reveal" style="transition-delay:0.36s"
+           data-nombre="patito amigurumi"
+           data-precio="30000" data-categoria="animal"
+           data-tags="pato,amarillo,amigurumi,animal,patito">
+        <div class="product-img">
+          <img src="assets/productos/p23.jpeg" alt="Patito Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Patito Amigurumi</h3>
+          <p class="desc">Amarillo brillante · pico naranja</p>
+          <div class="price-row"><span class="product-price">$30.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Patito Amigurumi','$30.000','Patito en hilo amarillo brillante con pico naranja. Perfecto para bebés. 15 cm.','#f9a825','assets/productos/p23.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Patito Amigurumi','$30.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta 24 -->
+      <div class="product-card reveal" style="transition-delay:0.42s"
+           data-nombre="set regalo fresitas"
+           data-precio="65000" data-categoria="original"
+           data-tags="set,pack,regalo,fresitas,colección">
+        <div class="product-img">
+          <span class="badge badge-nuevo">Set regalo</span>
+          <img src="assets/productos/p24.jpeg" alt="Set Regalo Fresitas" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Set Regalo Fresitas</h3>
+          <p class="desc">Pack de 3 piezas · presentación especial</p>
+          <div class="price-row"><span class="product-price">$65.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Set Regalo Fresitas','$65.000','Pack especial con 3 fresitas en diferentes colores. Presentación para regalo incluida.','#e8354a','assets/productos/p24.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open(&apos;ar-producto.html&apos;)">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Set Regalo Fresitas','$65.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════
+           COLECCIÓN ESPECIAL AMIGURUMI — 8 personajes reales
+           ══════════════════════════════════════════════════════════ -->
+
+      <!-- tarjeta AMG-001: Baliena -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="baliena llavero ballena"
+           data-precio="28000" data-categoria="llavero"
+           data-tags="ballena,llavero,azul,bebé,océano,amigurumi">
+        <div class="product-img">
+          <span class="badge badge-llavero">Llavero</span>
+          <img src="assets/productos/p3.jpeg" alt="Baliena — Llavero Ballena" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Baliena</h3>
+          <p class="desc">Ballena azul bebé · argolla dorada</p>
+          <div class="price-row"><span class="product-price">$28.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Baliena','$28.000','Ballena bebé azul tejida en crochet fino. Argolla dorada incluida. Perfecta para mochila o bolso.','#B8D4E8','#9BBDD6','baliena','assets/productos/p3.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Baliena','$28.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-002: Manchitas -->
+      <div class="product-card reveal" style="transition-delay:0.12s"
+           data-nombre="manchitas gatito bicolor gato"
+           data-precio="38000" data-categoria="animal"
+           data-tags="gato,gatito,blanco,negro,amigurumi,bicolor,manchas">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p4.jpeg" alt="Manchitas — Gatito Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Manchitas</h3>
+          <p class="desc">Gato bicolor blanco y negro · nariz rosa</p>
+          <div class="price-row"><span class="product-price">$38.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Manchitas','$38.000','Gatito bicolor tejido en hilo blanco cremoso con manchas negras. Orejas puntiagudas y nariz bordada. 12 cm.','#F5F2EC','#1A1916','manchitas','assets/productos/p4.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Manchitas','$38.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-003: Snoopy -->
+      <div class="product-card reveal" style="transition-delay:0.18s"
+           data-nombre="snoopy perro beagle amigurumi"
+           data-precio="42000" data-categoria="personaje"
+           data-tags="snoopy,perro,blanco,negro,personaje,peanuts,amigurumi">
+        <div class="product-img">
+          <span class="badge badge-edicion">Personaje</span>
+          <img src="assets/productos/p7.jpeg" alt="Snoopy Amigurumi" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Snoopy</h3>
+          <p class="desc">Perro Peanuts · collar rojo · 14 cm</p>
+          <div class="price-row"><span class="product-price">$42.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Snoopy','$42.000','Snoopy de Peanuts en amigurumi. Oreja negra colgante, collar rojo y expresión fiel al original. 14 cm.','#F5F5F0','#1A1916','snoopy','assets/productos/p7.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Snoopy','$42.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-004: Violeta (Puffle morado) -->
+      <div class="product-card reveal" style="transition-delay:0.24s"
+           data-nombre="violeta puffle morado club penguin"
+           data-precio="32000" data-categoria="personaje"
+           data-tags="puffle,morado,violeta,club,penguin,esponjoso,personaje">
+        <div class="product-img">
+          <span class="badge badge-popular">Popular</span>
+          <img src="assets/productos/p9.jpeg" alt="Violeta — Puffle Morado" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Violeta</h3>
+          <p class="desc">Puffle morado · pompón esponjoso</p>
+          <div class="price-row"><span class="product-price">$32.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Violeta','$32.000','Puffle morado de Club Penguin. Esfera tejida con pompón esponjoso superior y grandes ojos expresivos. 9 cm.','#9B4FCC','#C882EE','puffle','assets/productos/p9.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Violeta — Puffle Morado','$32.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-005: Naranja (Puffle naranja) -->
+      <div class="product-card reveal" style="transition-delay:0.3s"
+           data-nombre="naranja puffle naranja club penguin"
+           data-precio="32000" data-categoria="personaje"
+           data-tags="puffle,naranja,club,penguin,personaje,travieso,dientes">
+        <div class="product-img">
+          <span class="badge badge-edicion">Edición esp.</span>
+          <img src="assets/productos/p12.jpeg" alt="Naranja — Puffle Naranja" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Naranja</h3>
+          <p class="desc">Puffle naranja · pelo salvaje · dientes</p>
+          <div class="price-row"><span class="product-price">$32.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Naranja','$32.000','Puffle naranja de Club Penguin. Pelo salvaje hacia arriba y dientes traviesos. Lleno de personalidad. 9 cm.','#E55A00','#FF8C33','puffle','assets/productos/p12.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Naranja — Puffle Naranja','$32.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-006: Baphomet -->
+      <div class="product-card reveal" style="transition-delay:0.36s"
+           data-nombre="baphomet cabra demoniaca roja chenille"
+           data-precio="48000" data-categoria="personaje"
+           data-tags="baphomet,cabra,rojo,negro,cuernos,fantasía,chenille,oscuro,gótico">
+        <div class="product-img">
+          <span class="badge badge-raro">Raro</span>
+          <img src="assets/productos/p18.jpeg" alt="Baphomet — Cabra Demoníaca" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Baphomet</h3>
+          <p class="desc">Chenille rojo · cuernos negros · estrella</p>
+          <div class="price-row"><span class="product-price">$48.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Baphomet','$48.000','Cabra demoníaca en chenille rojo. Cuernos negros curvados, estrella en la frente y pezuñas negras. Pieza de colección. 11 cm.','#AA1515','#1A1916','baphomet','assets/productos/p18.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Baphomet','$48.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-007: Coral King -->
+      <div class="product-card reveal" style="transition-delay:0.42s"
+           data-nombre="coral king serpiente coralina tricolor chenille"
+           data-precio="65000" data-categoria="personaje"
+           data-tags="serpiente,coral,rojo,negro,blanco,chenille,grande,fantasía">
+        <div class="product-img">
+          <span class="badge badge-raro">Raro</span>
+          <img src="assets/productos/p20.jpeg" alt="Coral King — Serpiente Coral" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Coral King</h3>
+          <p class="desc">Serpiente coral · tricolor · 60 cm</p>
+          <div class="price-row"><span class="product-price">$65.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Coral King','$65.000','Serpiente coral gigante en chenille. Patrón tricolor rojo-negro-blanco. Cabeza negra imponente. La pieza más grande de la colección. 60 cm.','#CC1515','#1A1916','snake','assets/productos/p20.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Coral King','$65.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- tarjeta AMG-008: Cíclope -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="cíclope monstruo teal azul un ojo"
+           data-precio="35000" data-categoria="original"
+           data-tags="cíclope,monstruo,teal,azul,ojo,original,raro,tentáculos,patas">
+        <div class="product-img">
+          <span class="badge badge-nuevo">Original</span>
+          <img src="assets/productos/p24.jpeg" alt="Cíclope — Monstruo Teal" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Cíclope</h3>
+          <p class="desc">Monstruo teal · ojo rosa · 4 patas</p>
+          <div class="price-row"><span class="product-price">$35.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModalAmigurumi('Cíclope','$35.000','Monstruo cíclope teal con un gran ojo central rosado. Cuatro patas largas y dos antenas. Diseño exclusivo único. 16 cm.','#1B7A8A','#E87A80','cyclops','assets/productos/p24.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Cíclope','$35.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ══════════════════════════════════════════════════════════
+           NUEVOS PERSONAJES 3D — Jake · Merlina · Patricio · Ratón
+           ══════════════════════════════════════════════════════════ -->
+
+      <!-- Jake -->
+      <div class="product-card reveal" style="transition-delay:0.06s"
+           data-nombre="jake amigurumi perro"
+           data-precio="38000" data-categoria="personaje"
+           data-tags="jake,perro,amigurumi,personaje,3d,ar">
+        <div class="product-img">
+          <span class="badge badge-nuevo">3D + AR</span>
+          <div style="width:100%;height:200px;background:linear-gradient(135deg,#fde8ec,#fbbfc9);display:flex;align-items:center;justify-content:center;font-size:4.5rem">🐶</div>
+        </div>
+        <div class="product-info">
+          <h3>Jake</h3>
+          <p class="desc">Amigurumi crochet · ojos de seguridad</p>
+          <div class="price-row"><span class="product-price">$38.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Jake','$38.000','Amigurumi Jake tejido a crochet con hilos premium. Ojos de seguridad y relleno hipoalergénico. Aprox. 12 cm.','#e8354a','assets/productos/p5.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html?modelo=jake')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Jake','$38.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Merlina -->
+      <div class="product-card reveal" style="transition-delay:0.12s"
+           data-nombre="merlina amigurumi oscura"
+           data-precio="42000" data-categoria="personaje"
+           data-tags="merlina,oscura,amigurumi,personaje,3d,ar,gótica">
+        <div class="product-img">
+          <span class="badge badge-raro">3D + AR</span>
+          <div style="width:100%;height:200px;background:linear-gradient(135deg,#1a1a2e,#2d1b3d);display:flex;align-items:center;justify-content:center;font-size:4.5rem">🖤</div>
+        </div>
+        <div class="product-info">
+          <h3>Merlina</h3>
+          <p class="desc">Amigurumi oscura · detalles únicos</p>
+          <div class="price-row"><span class="product-price">$42.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Merlina','$42.000','Merlina amigurumi de crochet, oscura y adorable. Hilos seleccionados, detalles únicos bordados. Aprox. 14 cm.','#1a1a2e','assets/productos/p22.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html?modelo=merlina')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Merlina','$42.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patricio -->
+      <div class="product-card reveal" style="transition-delay:0.18s"
+           data-nombre="patricio estrella de mar amigurumi"
+           data-precio="35000" data-categoria="animal"
+           data-tags="patricio,estrella,mar,rosa,amigurumi,3d,ar">
+        <div class="product-img">
+          <span class="badge badge-popular">3D + AR</span>
+          <div style="width:100%;height:200px;background:linear-gradient(135deg,#ffd6e7,#ffaac8);display:flex;align-items:center;justify-content:center;font-size:4.5rem">⭐</div>
+        </div>
+        <div class="product-info">
+          <h3>Patricio</h3>
+          <p class="desc">Estrella de mar · hilo rosa suave</p>
+          <div class="price-row"><span class="product-price">$35.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Patricio','$35.000','Patricio estrella de mar tejida en hilo rosa suave. Ojos expresivos y textura delicada. Aprox. 13 cm.','#ff88bb','assets/productos/p11.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html?modelo=patricio')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Patricio','$35.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ratón -->
+      <div class="product-card reveal" style="transition-delay:0.24s"
+           data-nombre="raton ratoncito amigurumi"
+           data-precio="32000" data-categoria="animal"
+           data-tags="ratón,raton,ratoncito,amigurumi,animal,3d,ar">
+        <div class="product-img">
+          <span class="badge badge-edicion">3D + AR</span>
+          <div style="width:100%;height:200px;background:linear-gradient(135deg,#f5e6ff,#dbb8f0);display:flex;align-items:center;justify-content:center;font-size:4.5rem">🐭</div>
+        </div>
+        <div class="product-info">
+          <h3>Ratón</h3>
+          <p class="desc">Ratoncito crochet · orejitas redondeadas</p>
+          <div class="price-row"><span class="product-price">$32.000</span><span class="product-stars">★★★★★</span></div>
+          <div class="product-btns">
+            <button class="btn-3d" onclick="openModal('Ratón','$32.000','Ratoncito amigurumi con orejitas redondeadas y nariz bordada. Hilo suave anti-alérgico. Aprox. 11 cm.','#c875e8','assets/productos/p23.jpeg')">🔮 3D</button>
+            <button class="btn-ar" onclick="window.open('ar-producto.html?modelo=raton')">📱 AR</button>
+            <button class="btn-wa" onclick="pedirProductoWA('Ratón','$32.000')"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /slider-track -->
+    <div class="slider-nav">
+      <button class="slider-btn" id="btn-prev" aria-label="Anterior">←</button>
+      <button class="slider-btn" id="btn-next" aria-label="Siguiente">→</button>
+    </div>
+  </div><!-- /slider-wrapper -->
+</section>
+
+<!-- AR SECTION -->
+<section id="ar-section">
+  <div class="ar-bg"></div>
+  <div style="position:relative;z-index:2">
+    <div class="section-tag">Tecnología WebXR</div>
+    <h2>Ve tus fresitas en tu espacio</h2>
+    <p>Activa la Realidad Aumentada desde tu celular y coloca tus productos donde quieras, antes de hacer tu pedido. Compatible con Android y iPhone.</p>
+    <a href="ar-producto.html" class="btn btn-primary" style="display:inline-flex">📱 Abrir visor AR</a>
+  </div>
+  <div class="ar-visor" style="position:relative;z-index:2">
+    <div class="phone-glow"></div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="ar-corner tl"></div><div class="ar-corner tr"></div>
+        <div class="ar-corner bl"></div><div class="ar-corner br"></div>
+        <div class="ar-scan-line"></div>
+        <div class="ar-emoji">🍓</div>
+        <span class="ar-label">AR · Detectando superficie</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL 3D -->
+<div id="modal-3d" role="dialog" aria-modal="true">
+  <div class="modal-inner">
+    <button class="modal-cerrar" onclick="closeModal()">✕</button>
+    <div>
+      <div class="modal-viewer">
+        <canvas id="modal-canvas"></canvas>
+        <img id="modal-foto" alt="Foto del producto" />
+      </div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="tab-3d" onclick="switchModalView('3d')">🔮 Vista 3D</button>
+        <button class="modal-tab" id="tab-foto" onclick="switchModalView('foto')">📷 Foto real</button>
+      </div>
+      <div class="modal-controles">
+        <button class="ctrl-btn active">↻ Rotar</button>
+        <button class="ctrl-btn" id="ctrl-luz" onclick="toggleLight()">☀ Luz</button>
+      </div>
+    </div>
+    <div class="modal-info">
+      <h2 id="modal-nombre">Producto</h2>
+      <p class="modal-desc" id="modal-desc">Descripción.</p>
+      <div class="modal-precio" id="modal-precio">$0</div>
+      <div class="modal-btns">
+        <button class="btn btn-primary" style="width:100%">🛒 Agregar al carrito</button>
+        <button class="btn btn-secondary" style="width:100%" onclick="window.open('ar-producto.html')">📱 Ver en AR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Strawberry <span>Yarn</span></a>
+  <span class="footer-copy">© 2026 Strawberry Yarn · Hecho con 🧶 a mano</span>
+  <div class="footer-socials">
+    <a href="#" class="social-link">📷</a>
+    <a href="#" class="social-link">🎵</a>
+    <a href="#" class="social-link">📌</a>
+    <a href="https://wa.me/573001234567" target="_blank" class="social-link">💬</a>
+  </div>
+</footer>
+
+<!-- WHATSAPP FAB -->
+<a id="wa-fab" class="wa-fab"
+   href="https://wa.me/573001234567?text=Hola%20Strawberry%20Yarn!%20Me%20interesa%20un%20producto"
+   target="_blank" rel="noopener noreferrer">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="21" height="21">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span class="wa-label">¿Te ayudo?</span>
+  <span class="wa-pulse"></span>
+</a>
+<div class="wa-burbuja" id="wa-burbuja">
+  <div class="wa-burbuja-header">
+    <div class="wa-avatar">🍓</div>
+    <div class="wa-burbuja-info">
+      <span class="wa-nombre">Strawberry Yarn</span>
+      <span class="wa-estado">● En línea</span>
+    </div>
+    <button class="wa-cerrar-btn" id="wa-cerrar-btn">✕</button>
+  </div>
+  <div class="wa-burbuja-body">
+    <div class="wa-msg">¡Hola! 👋 ¿Encontraste algo que te gustó? Escríbenos y te ayudamos a elegir tu fresita perfecta 🧶</div>
+  </div>
+  <a class="wa-cta" href="https://wa.me/573001234567?text=Hola%20Strawberry%20Yarn!%20Me%20interesa%20un%20producto" target="_blank">Abrir WhatsApp →</a>
+</div>
+
+<!-- SCRIPTS (mismo orden que el original del cliente) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/scene3d.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/buscador.js"></script>
+<script src="js/whatsapp.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
