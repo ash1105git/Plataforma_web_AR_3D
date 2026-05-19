@@ -11,8 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
     rel="stylesheet" />
 
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js">
-  </script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <link rel="stylesheet" href="css/variables.css" />
 
@@ -522,7 +521,7 @@
         <!-- Baphomet -->
         <button class="personaje-btn activo" onclick="cambiarModelo(this)" data-modelo="baphy-v1" data-nombre="Baphomet"
           data-desc="Cabra demoníaca en chenille rojo con cuernos negros y estrella en la frente. 11 cm."
-          data-precio="$48.000" data-img="assets/productos/p18.jpeg">
+          data-precio="$48.000" data-img="assets/productos/baphy.png">
           <span class="dot-activo"></span>
           <span class="emoji">🐐</span>
           <span class="pnombre">Baphomet</span>
@@ -532,7 +531,7 @@
         <!-- Buffles -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="buffles-v1" data-nombre="Puffle"
           data-desc="Puffle amigurumi esponjoso y colorido. Tejido en hilo suave." data-precio="$32.000"
-          data-img="assets/productos/p9.jpeg">
+          data-img="assets/productos/buffles.png">
           <span class="dot-activo"></span>
           <span class="emoji">🐾</span>
           <span class="pnombre">Puffle</span>
@@ -542,17 +541,17 @@
         <!-- Bulldog -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="bulldog-v1" data-nombre="Bulldog"
           data-desc="Bulldog amigurumi detallado. Tejido con textura especial." data-precio="$35.000"
-          data-img="assets/productos/p4.jpeg">
+          data-img="assets/productos/bulldog.png">
           <span class="dot-activo"></span>
-          <span class="emoji">🐶</span>
-          <span class="pnombre">Bulldog</span>
+          <span class="emoji">😸</span>
+          <span class="pnombre">Gatito</span>
           <span class="pprecio">$35.000</span>
         </button>
 
         <!-- Coraline -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="coraline-v1" data-nombre="Coraline"
           data-desc="Coraline amigurumi con su clásico impermeable amarillo." data-precio="$42.000"
-          data-img="assets/productos/p22.jpeg">
+          data-img="assets/productos/coraline.png">
           <span class="dot-activo"></span>
           <span class="emoji">👧🏻</span>
           <span class="pnombre">Coraline</span>
@@ -572,7 +571,7 @@
         <!-- Ozzy -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="ozzy-v1" data-nombre="Ozzy"
           data-desc="Ozzy el personaje único tejido a crochet. Suave y adorable." data-precio="$35.000"
-          data-img="assets/productos/p24.jpeg">
+          data-img="assets/productos/ozzy.png">
           <span class="dot-activo"></span>
           <span class="emoji">🦇</span>
           <span class="pnombre">Ozzy</span>
@@ -582,7 +581,7 @@
         <!-- Patricio -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="patricio-v1" data-nombre="Patricio"
           data-desc="Patricio estrella de mar tejida en hilo rosa suave." data-precio="$35.000"
-          data-img="assets/productos/p11.jpeg">
+          data-img="assets/productos/patricio.png">
           <span class="dot-activo"></span>
           <span class="emoji">⭐</span>
           <span class="pnombre">Patricio</span>
@@ -592,7 +591,7 @@
         <!-- Ratón -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="raton-v1" data-nombre="Ratón"
           data-desc="Ratoncito amigurumi con orejitas redondeadas y nariz bordada." data-precio="$32.000"
-          data-img="assets/productos/p23.jpeg">
+          data-img="assets/productos/92639-removebg-preview.png">
           <span class="dot-activo"></span>
           <span class="emoji">🐭</span>
           <span class="pnombre">Ratón</span>
@@ -602,7 +601,7 @@
         <!-- Víbora -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="vibora-v1" data-nombre="Víbora"
           data-desc="Serpiente coral gigante en chenille. Patrón tricolor." data-precio="$65.000"
-          data-img="assets/productos/p20.jpeg">
+          data-img="assets/productos/vibora.png">
           <span class="dot-activo"></span>
           <span class="emoji">🐍</span>
           <span class="pnombre">Víbora</span>
@@ -612,7 +611,7 @@
         <!-- Vudú -->
         <button class="personaje-btn" onclick="cambiarModelo(this)" data-modelo="vudu-v1" data-nombre="Vudú"
           data-desc="Muñeco Vudú amigurumi con botones y textura rústica." data-precio="$30.000"
-          data-img="assets/productos/p7.jpeg">
+          data-img="assets/productos/vudu.png">
           <span class="dot-activo"></span>
           <span class="emoji">🧶</span>
           <span class="pnombre">Vudú</span>
@@ -642,7 +641,7 @@
 
     <!-- ── Info del producto ── -->
     <div class="info-card">
-      <img id="info-img" src="assets/productos/p18.jpeg" alt="Producto" class="producto-img-info" />
+      <img id="info-img" src="assets/productos/baphy.png" alt="Producto" class="producto-img-info" />
       <div class="badge-hecho">🧶 Hecho a mano</div>
       <h1 id="info-nombre">Baphomet</h1>
       <p class="desc" id="info-desc">
@@ -732,8 +731,12 @@
       const esMobil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (!esMobil) {
         document.getElementById('desktop-aviso').style.display = 'block';
-      } else if (!mv.canActivateAR) {
-        document.getElementById('compat-nota').classList.add('visible');
+      } else {
+        customElements.whenDefined('model-viewer').then(() => {
+          if (!mv.canActivateAR) {
+            document.getElementById('compat-nota').classList.add('visible');
+          }
+        });
       }
 
       // Si llega con ?modelo=xxx en la URL, pre-seleccionarlo

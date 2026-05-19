@@ -4,15 +4,27 @@
 
 let _modalScene = null;
 let _lightMode  = 0;
+let _currentGlb = null;
 
-function openModal(name, price, desc, color, imgSrc) {
+function openModal(name, price, desc, color, imgSrc, glbSrc) {
   document.getElementById('modal-nombre').textContent = name;
   document.getElementById('modal-precio').textContent = price;
   document.getElementById('modal-desc').textContent   = desc;
+  _currentGlb = glbSrc || null;
 
   const modal = document.getElementById('modal-3d');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  
+  const mv = document.getElementById('modal-mv');
+  if (mv) {
+    if (_currentGlb) {
+      mv.src = _currentGlb;
+    } else {
+      mv.src = '';
+    }
+  }
+
   switchModalView('3d');
 
   // Foto real
@@ -25,13 +37,16 @@ function openModal(name, price, desc, color, imgSrc) {
   setTimeout(() => {
     const canvas = document.getElementById('modal-canvas');
     if (_modalScene) { _modalScene.destroy(); _modalScene = null; }
-    _modalScene = createScene(canvas, {
-      autoRotate: true, floatAnim: true,
-      initialRadius: 3.8, color: color || '#ff4b5c', seedCount: 10
-    });
-    _modalScene.controls.autoRotateSpeed = 1.3;
-    _modalScene.controls._spherical.radius = 3.8;
-    _modalScene.controls._updateCamera();
+    
+    if (!_currentGlb) {
+      _modalScene = createScene(canvas, {
+        autoRotate: true, floatAnim: true,
+        initialRadius: 3.8, color: color || '#ff4b5c', seedCount: 10
+      });
+      _modalScene.controls.autoRotateSpeed = 1.3;
+      _modalScene.controls._spherical.radius = 3.8;
+      _modalScene.controls._updateCamera();
+    }
   }, 80);
 }
 
@@ -40,14 +55,24 @@ function switchModalView(modo) {
   const foto    = document.getElementById('modal-foto');
   const tab3d   = document.getElementById('tab-3d');
   const tabFoto = document.getElementById('tab-foto');
+  const mv      = document.getElementById('modal-mv');
 
   if (modo === '3d') {
-    canvas.style.opacity = '1'; canvas.style.pointerEvents = 'all';
+    if (_currentGlb && mv) {
+      mv.style.display = 'block';
+      canvas.style.opacity = '0'; canvas.style.pointerEvents = 'none';
+      canvas.style.display = 'none';
+    } else {
+      if (mv) mv.style.display = 'none';
+      canvas.style.display = 'block';
+      canvas.style.opacity = '1'; canvas.style.pointerEvents = 'all';
+      if (_modalScene) _modalScene.controls.autoRotate = true;
+    }
     foto.style.display = 'none';
     tab3d.classList.add('active'); tabFoto.classList.remove('active');
-    if (_modalScene) _modalScene.controls.autoRotate = true;
   } else {
     canvas.style.opacity = '0'; canvas.style.pointerEvents = 'none';
+    if (mv) mv.style.display = 'none';
     foto.style.display = 'block';
     tab3d.classList.remove('active'); tabFoto.classList.add('active');
   }
@@ -89,10 +114,17 @@ function openModalAmigurumi(name, price, desc, color, color2, tipo, imgSrc) {
   document.getElementById('modal-nombre').textContent = name;
   document.getElementById('modal-precio').textContent = price;
   document.getElementById('modal-desc').textContent   = desc;
+  _currentGlb = null;
 
   const modal = document.getElementById('modal-3d');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  
+  const mv = document.getElementById('modal-mv');
+  if (mv) {
+    mv.src = '';
+  }
+
   switchModalView('3d');
 
   const fotoEl = document.getElementById('modal-foto');
