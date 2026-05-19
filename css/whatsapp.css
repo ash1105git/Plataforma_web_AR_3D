@@ -1,0 +1,111 @@
+/* ═══════════════════════════════
+   whatsapp.css
+═══════════════════════════════ */
+
+/* ── FAB ── */
+.wa-fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 400;
+  display: flex; align-items: center; gap: 10px;
+  background: #25D366; color: var(--blanco);
+  text-decoration: none; border-radius: 50px;
+  padding: 14px 22px 14px 18px;
+  font-family: var(--font-body); font-size: .88rem; font-weight: 600;
+  box-shadow: 0 5px 22px rgba(37,211,102,.42), 0 2px 8px rgba(0,0,0,.14);
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  animation: fabEntrada .6s 1.4s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes fabEntrada {
+  from { opacity:0; transform:translateY(18px) scale(.8); }
+  to   { opacity:1; transform:none; }
+}
+.wa-fab:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(37,211,102,.52), 0 4px 12px rgba(0,0,0,.14);
+}
+.wa-fab:active { transform: translateY(-1px) scale(.98); }
+
+.wa-fab svg { width: 21px; height: 21px; flex-shrink: 0; fill: currentColor; }
+.wa-label { white-space: nowrap; }
+
+/* Pulso animado */
+.wa-pulse {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: #25D366; opacity: 0;
+  animation: pulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: .6; }
+  70%  { transform: scale(1.26); opacity: 0; }
+  100% { transform: scale(1.26); opacity: 0; }
+}
+
+/* móvil: solo ícono */
+@media (max-width: 540px) {
+  .wa-fab { padding: 16px; border-radius: 50%; bottom: 20px; right: 20px; }
+  .wa-label { display: none; }
+  .wa-fab svg { width: 24px; height: 24px; }
+}
+
+/* ── Burbuja de chat ── */
+.wa-burbuja {
+  position: fixed; bottom: 94px; right: 28px; z-index: 399;
+  width: 296px;
+  background: var(--blanco); border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 8px 38px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.07);
+  overflow: hidden;
+  opacity: 0; transform: translateY(10px) scale(.96);
+  pointer-events: none;
+  transition: opacity .32s, transform .38s cubic-bezier(.34,1.56,.64,1);
+}
+.wa-burbuja.show { opacity: 1; transform: none; pointer-events: all; }
+.wa-burbuja.hide { opacity: 0; transform: translateY(8px) scale(.95); pointer-events: none; }
+
+.wa-burbuja-header {
+  background: #075E54;
+  padding: 13px 15px;
+  display: flex; align-items: center; gap: 10px;
+}
+.wa-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.wa-burbuja-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.wa-nombre { color: var(--blanco); font-size: .86rem; font-weight: 600; }
+.wa-estado { color: #64ffda; font-size: .7rem; }
+
+.wa-cerrar-btn {
+  background: none; border: none; color: rgba(255,255,255,.65);
+  font-size: .95rem; cursor: pointer; padding: 4px;
+  border-radius: 50%; width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.wa-cerrar-btn:hover { color: var(--blanco); background: rgba(255,255,255,.15); }
+
+.wa-burbuja-body { padding: 14px; background: #f0f4f8; }
+.wa-msg {
+  background: var(--blanco); border-radius: 11px 11px 11px 3px;
+  padding: 11px 13px; font-size: .84rem; color: var(--oscuro); line-height: 1.6;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  animation: msgIn .38s .08s ease both;
+}
+@keyframes msgIn {
+  from { opacity:0; transform:translateX(-7px); }
+  to   { opacity:1; transform:none; }
+}
+
+.wa-cta {
+  display: block; margin: 0 14px 14px;
+  padding: 10px 15px; background: #25D366; color: var(--blanco);
+  text-decoration: none; border-radius: 9px;
+  font-size: .84rem; font-weight: 600; text-align: center;
+  transition: background .2s, transform .2s;
+}
+.wa-cta:hover { background: #1da851; transform: translateY(-1px); }
+
+@media (max-width: 540px) {
+  .wa-burbuja { right: 14px; bottom: 86px; width: calc(100vw - 28px); max-width: 310px; }
+}

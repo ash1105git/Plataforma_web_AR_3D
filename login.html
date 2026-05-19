@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso Admin · Strawberry Yarn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <style>
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--rosa-bg);
+      color: var(--oscuro);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ─── Fondo decorativo ─── */
+    .bg-blob {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+    .bg-blob::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,53,74,.10) 0%, transparent 70%);
+    }
+    .bg-blob::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,192,201,.22) 0%, transparent 70%);
+    }
+    .bg-dots {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(232,53,74,.09) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+    }
+
+    /* ─── Card principal ─── */
+    .login-card {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 420px;
+      background: var(--blanco);
+      border-radius: 28px;
+      padding: 44px 40px 36px;
+      box-shadow: 0 24px 64px rgba(45,26,31,.12), 0 4px 16px rgba(232,53,74,.08);
+      animation: cardIn .55s cubic-bezier(.34,1.2,.64,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(28px) scale(.96); }
+      to   { opacity:1; transform: none; }
+    }
+
+    /* ─── Cabecera ─── */
+    .login-brand {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      margin-bottom: 32px;
+    }
+    .brand-emoji {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--rosa-light), var(--rosa));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 8px 24px rgba(232,53,74,.18);
+    }
+    .brand-nombre {
+      font-family: var(--font-script);
+      font-size: 1.5rem; color: var(--rojo);
+    }
+    .login-title {
+      font-family: var(--font-display);
+      font-size: 1.55rem; font-weight: 700;
+      text-align: center; letter-spacing: -.02em;
+      margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: .82rem; color: var(--gris-texto);
+      text-align: center; margin-bottom: 28px;
+    }
+
+    /* ─── Formulario ─── */
+    .form-group {
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 18px;
+    }
+    .form-label {
+      font-size: .78rem; font-weight: 600;
+      color: var(--gris-texto); letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .input-icon {
+      position: absolute; left: 15px; top: 50%;
+      transform: translateY(-50%);
+      font-size: .95rem; pointer-events: none;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 42px 13px 44px;
+      border-radius: 50px;
+      border: 2px solid var(--gris-borde);
+      background: var(--rosa-bg);
+      font-family: var(--font-body);
+      font-size: .92rem; color: var(--oscuro);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .form-input:focus {
+      border-color: var(--rojo);
+      background: var(--blanco);
+      box-shadow: 0 0 0 4px rgba(232,53,74,.08);
+    }
+    .form-input::placeholder { color: var(--gris-medio); }
+
+    .toggle-pass {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      font-size: 1rem; cursor: pointer;
+      color: var(--gris-texto);
+      transition: color .2s;
+    }
+    .toggle-pass:hover { color: var(--rojo); }
+
+    /* ─── Error ─── */
+    .error-msg {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff0f0; border: 1px solid #ffd0d0;
+      border-radius: var(--radio-sm);
+      padding: 11px 15px;
+      font-size: .82rem; color: #c0392b;
+      margin-bottom: 16px;
+      opacity: 0; transform: translateY(-6px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+    }
+    .error-msg.visible {
+      opacity: 1; transform: none; pointer-events: all;
+    }
+
+    /* ─── Botón submit ─── */
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--rojo); color: var(--blanco);
+      border: none; border-radius: 50px;
+      font-family: var(--font-body); font-size: .95rem; font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(232,53,74,.32);
+      transition: transform .2s, box-shadow .2s, background .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 20px;
+    }
+    .btn-login:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(232,53,74,.42);
+    }
+    .btn-login:disabled {
+      opacity: .7; cursor: not-allowed;
+    }
+    .btn-login .spinner-btn {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-login.loading .spinner-btn { display: block; }
+    .btn-login.loading .btn-label   { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Volver ─── */
+    .back-link {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-size: .82rem; color: var(--gris-texto); text-decoration: none;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--rojo); }
+
+    /* ─── Credenciales demo ─── */
+    .demo-hint {
+      margin-top: 22px;
+      background: rgba(232,53,74,.05);
+      border: 1px dashed rgba(232,53,74,.22);
+      border-radius: var(--radio-sm);
+      padding: 12px 15px;
+      font-size: .76rem; color: var(--gris-texto);
+      text-align: center; line-height: 1.7;
+    }
+    .demo-hint strong { color: var(--rojo); }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 32px 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-blob"></div>
+<div class="bg-dots"></div>
+
+<div class="login-card">
+  <div class="login-brand">
+    <div class="brand-emoji">🍓</div>
+    <span class="brand-nombre">Strawberry Yarn</span>
+  </div>
+
+  <h1 class="login-title">Panel de administración</h1>
+  <p class="login-sub">Accede con tus credenciales para gestionar el negocio</p>
+
+  <div class="error-msg" id="error-msg">
+    ⚠️ <span id="error-txt">Usuario o contraseña incorrectos.</span>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="inp-user">Usuario</label>
+    <div class="input-wrap">
+      <span class="input-icon">👤</span>
+      <input class="form-input" type="text" id="inp-user"
+             placeholder="admin" autocomplete="username" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="inp-pass">Contraseña</label>
+    <div class="input-wrap">
+      <span class="input-icon">🔒</span>
+      <input class="form-input" type="password" id="inp-pass"
+             placeholder="••••••••" autocomplete="current-password" />
+      <button class="toggle-pass" id="toggle-pass" type="button"
+              aria-label="Mostrar contraseña">👁</button>
+    </div>
+  </div>
+
+  <button class="btn-login" id="btn-login" type="button">
+    <span class="spinner-btn"></span>
+    <span class="btn-label">Ingresar al panel</span>
+  </button>
+
+  <a href="index.html" class="back-link">← Volver a la tienda</a>
+
+  <!-- Quita este bloque en producción -->
+  
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+  /* ── Toggle mostrar contraseña ── */
+  document.getElementById('toggle-pass').addEventListener('click', function () {
+    const inp = document.getElementById('inp-pass');
+    const esTexto = inp.type === 'text';
+    inp.type = esTexto ? 'password' : 'text';
+    this.textContent = esTexto ? '👁' : '🙈';
+  });
+
+  /* ── Submit con Enter ── */
+  ['inp-user','inp-pass'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('btn-login').click();
+    });
+  });
+
+  /* ── Si ya está autenticado, redirigir directo ── */
+  if (Auth.estaAutenticado()) location.replace('admin.html');
+</script>
+</body>
+</html>

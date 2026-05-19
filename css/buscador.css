@@ -1,0 +1,80 @@
+/* ═══════════════════════════════
+   buscador.css
+═══════════════════════════════ */
+
+.search-wrap {
+  padding: 0 48px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Input ── */
+.search-input-wrap {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+.search-icon {
+  position: absolute; left: 17px; top: 50%;
+  transform: translateY(-50%);
+  font-size: .95rem; pointer-events: none;
+}
+#search-input {
+  width: 100%;
+  padding: 13px 42px 13px 44px;
+  border-radius: 50px;
+  border: 2px solid var(--gris-borde);
+  background: var(--blanco);
+  font-family: var(--font-body);
+  font-size: .92rem; color: var(--oscuro);
+  outline: none;
+  box-shadow: 0 4px 18px rgba(45,26,31,.05);
+  transition: border-color .2s, box-shadow .2s;
+}
+#search-input:focus {
+  border-color: var(--rojo);
+  box-shadow: 0 4px 22px rgba(232,53,74,.13);
+}
+#search-input::placeholder { color: var(--gris-medio); }
+
+.search-clear {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  background: var(--gris-borde); border: none; border-radius: 50%;
+  width: 24px; height: 24px; cursor: pointer;
+  font-size: .68rem; color: var(--gris-texto);
+  display: none; align-items: center; justify-content: center;
+  transition: background .2s, color .2s;
+}
+.search-clear.visible { display: flex; }
+.search-clear:hover { background: var(--rojo); color: var(--blanco); }
+
+/* ── Chips de filtro ── */
+.filter-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center;
+}
+.chip {
+  padding: 7px 17px; border-radius: 50px;
+  border: 1.5px solid var(--gris-borde);
+  background: var(--blanco);
+  font-family: var(--font-body); font-size: .8rem; font-weight: 500;
+  color: var(--gris-texto); cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.chip:hover { border-color: var(--rosa); color: var(--rojo); transform: translateY(-1px); }
+.chip.active {
+  background: var(--rojo); border-color: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 4px 14px rgba(232,53,74,.28);
+}
+
+/* ── Contador ── */
+.results-count {
+  text-align: center; font-size: .8rem;
+  color: var(--gris-texto); min-height: 20px;
+  transition: color .3s;
+}
+.results-count.activo { color: var(--rojo); font-weight: 500; }
